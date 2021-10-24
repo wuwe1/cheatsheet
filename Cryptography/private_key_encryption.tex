@@ -69,4 +69,98 @@ $\Pr[out_{\mathcal{A}}(PrivK^{eav}_{\mathcal{A},\Pi}(n,0)=1)]
 -\Pr[out_{\mathcal{A}}(PrivK^{eav}_{\mathcal{A},\Pi}(n,1)=1)]
 \le negl(n)$\\
 $\ast\ $Essentially states that no $\mathcal{A}$ can determine whether it is running in
-experiment 0 or experiment 1
+experiment 0 or experiment 1\\
+
+DEFINITION 3.14 (PRG): Let $\ell$ be a polynomial and let $G$ be a deterministic 
+polynomial-time algorithm such that for any $n$ and any input $s \in \{0,1\}^n$, 
+the result $G(s)$ is a string of length $\ell(n)$. We say that $G$ is 
+a \emph{pseudorandom generator} if the following conditions hold:
+\begin{enumerate}
+    \item (Expainsion:) For every n it holds that $\ell(n)>n$
+    \item (Pseudorandomness:) For any PPT algorithm $D$, there is a negligible
+     function $negl$ such that $|\Pr[D(G(s))=1]-\Pr[D(r)=1]|\le negl(n)$,
+     where the first probability is taken over uniform choice of
+     $s \in \{0, 1\}^n$ and the randomness of $D$, and the second probability
+      is taken over uniform choice of $r \in \{0, 1\}^{\ell(n)}$ and the randomness
+       of $D$. We call $\ell$ the expansion factor of $G$
+\end{enumerate}
+Let $G:\{0,1\}^n\rightarrow \{0,1\}^{\ell(n)}$ be a deterministic poly-time
+algorithm.\\
+$PRG_{\mathcal{D},G}(n)$:
+\begin{enumerate}
+  \item The challenger chooses $b\leftarrow\{0,1\}$.\\
+  if $b=0$, he chooses $r\leftarrow\{0,1\}^{\ell(n)}$\\
+  if $b=1$, he chooses $s\leftarrow\{0,1\}^n$, and computes $r=G(s)$\\
+  He gives $r$ to $\mathcal{D}$
+  \item On input $r$, the distinguisher $\mathcal{D}$ outputs a guess $b'$
+  \item $PRG_{\mathcal{D},G}(n)=1$, if $b'=b$
+\end{enumerate}
+
+Proofs by Reduction: We begin with an assumption that some problem $X$
+ cannot be solved (in some precisely defined sense) by any polynomial-time
+  algorithm, except with negligible probability. We want to prove that some
+   cryptographic construction $\Pi$ is secure (again, in some sense that is 
+   precisely defined).
+   \begin{enumerate}
+       \item Fix some efficient (i.e., probabilistic polynomial-time)
+        adversary $\mathcal{A}$ attacking $\Pi$. Denote this adversary’s
+         success probability by $\varepsilon(n)$.
+       \item Construct an efficient algorithm $\mathcal{A}'$, called the “reduction,” 
+       that attempts to solve problem $X$ using adversary $\mathcal{A}$ as a 
+       subroutine. An important point here is that $\mathcal{A}'$ knows nothing
+        about how $\mathcal{A}$ works; the only thing $\mathcal{A}'$ knows 
+        is that $\mathcal{A}$ is expecting to attack $\Pi$. So, given some input
+         instance $x$ of problem $X$, our algorithm $\mathcal{A}'$ will simulate
+          for $\mathcal{A}$ an instance of $\Pi$ such that:
+          \begin{enumerate}
+              \item As far as $\mathcal{A}$ can tell, it is interacting with 
+              $\Pi$. That is, the view of $\mathcal{A}$ when run as a subroutine
+               by $\mathcal{A}'$ should be distributed identically to 
+               (or at least close to) the view of $\mathcal{A}$ when it
+                interacts with $\Pi$ itself.
+              \item If $\mathcal{A}$ succeeds in “breaking” the instance of 
+              $\Pi$ that is being simulated by $\mathcal{A}'$, this should 
+              allow $\mathcal{A}'$ to solve the instance $x$ it was given, 
+              at least with inverse polynomial probability $1/p(n)$.
+          \end{enumerate}
+        \item Taken together, 2(a) and 2(b) imply that $\mathcal{A}'$ solves $X$
+         with probability $\varepsilon(n)/p(n)$. If $\varepsilon(n)$ is not 
+         negligible, then neither is $\varepsilon(n)/p(n)$. Moreover, 
+         if $\mathcal{A}$ is efficient then we obtain an efficient algorithm 
+         $\mathcal{A}'$ solving $X$ with non-negligible probability, 
+         contradicting the initial assumption.
+        \item Given our assumption regarding $X$, we conclude that no efficient 
+        adversary $\mathcal{A}$ can succeed in breaking $\Pi$ with 
+        non-negligible probability. Stated differently, 
+        $\Pi$ is computationally secure.
+   \end{enumerate}
+CPA Security:
+\begin{enumerate}
+  \item $\mathcal{A}$ is allowed to request encryptions (under key $k$) of any messages of its choice.
+  \item $\mathcal{A}$ still cannot learn any information about encrypted message when seeing challenge ciphertext $c$.
+\end{enumerate}
+Oracle: An oracle evaluates a function without revealing its internal details.
+We write $\mathcal{A}^{O(\cdot)}$ to indicate a party 
+$\mathcal{A}$ given oracle access to some function $O$.
+$PrivK^{cpa}_{\mathcal{A},\Pi}(n)$:
+\begin{enumerate}
+  \item The challenger chooses $k\leftarrow Gen(1^n)$
+  \item $\mathcal{A}^{Enc_k(\cdot)}(1^n)$ outputs $m_0, m_1$ such that
+  $|m_0|=|m_1|$
+  \item The challenger chooses $b\leftarrow\{0,1\}$, 
+  computes $c \leftarrow Enc_k(m_b)$ and gives $c$ to $\mathcal{A}$
+  \item $\mathcal{A}^{Enc_k(\cdot)}$ outputs guess bit $b'$
+\end{enumerate}
+$PRF_{\mathcal{D},F}(n)$:
+\begin{enumerate}
+  \item The challenger chooses $b \in \{0,1\}$.
+  \item If $b=0$,he chooses $f \leftarrow F_n$ and 
+  gives $\mathcal{D}$ an oracle$ O=f$.
+  \item if $b = 1$, he chooses $k \leftarrow \{0,1\}^n$, and 
+  gives $\mathcal{D}$ an oracle $O = F_k$.
+  \item With access to oracle $O$, the distinguisher $\mathcal{D}$ outputs 
+  a bit $b'$ $PRF_{\mathcal{D},F}(n) = 1$ (i.e., $D$ wins) if $b' = b$
+\end{enumerate}
+
+
+
