@@ -177,7 +177,10 @@ $re^{i\theta}=r\cos\theta+ir\sin\theta$\\
 $a=r\cos\theta,b=r\sin\theta$\\
 $r=\sqrt{a^2+b^2}$\\
 $\frac{b}{a}=\frac{r\sin\theta}{r\cos\theta}=\frac{\sin\theta}{\cos\theta}=\tan\theta$\\
-$re^{i\theta}\cdot r'e^{i\theta'}=rr'e^{i(\theta\theta')}$
+$re^{i\theta}\cdot r'e^{i\theta'}=rr'e^{i(\theta\theta')}$\\
+$e^{i\theta}=\cos\theta+i\sin\theta$\\
+$\cos\theta=\frac{e^{i\theta}+e^{-i\theta}}{2}$\\
+$\sin\theta=\frac{e^{i\theta}-e^{-i\theta}}{2i}$
 
 \subsubsection*{Vector Spaces}
 Vector space $(V,+,.,O)$:
@@ -200,6 +203,29 @@ Basis:
 \begin{itemize}
     \item $v_1,v_2,\cdots,v_n$ are linearly independent
     \item $\forall v\in V$, $v$ can be expressed as a linear combination of $v_1, v_2, \cdots, v_n$
+    \item \emph{transform} change from the canonical basis to a new one determined by $A^{-1}$
 \end{itemize}
 
-For human eyes and ears, the low-frequency contents are more important than highfrequency contents.\\
+For human eyes and ears, the $\text{low-frequency}$ contents are more important than highfrequency contents.\\
+
+Fourier series:\\
+\begin{itemize}
+    \item $x(t)=\frac{a_0}{2}+\sum^\infty_{k=1}(a_k\cos\frac{2\pi}{T}kt+b_k\sin\frac{2\pi}{T}kt)$
+    \item $a_k=\frac{1}{T}\int^T_0x(t)\cos\frac{2\pi}{T}kt\ dt$
+    \item $b_k=\frac{1}{T}\int^T_0x(t)\sin\frac{2\pi}{T}kt\ dt$
+    \item $x(t)=\sum^\infty_{k=-\infty}y_ke^{\frac{2\pi}{T}ikt}$
+    \item $y_k=\frac{1}{T}\int^T_0x(t)e^{-\frac{2\pi}{T}ikt}dt$
+\end{itemize}
+We can express a singal $x(t)$ as a linear combination of the vectors of the basis
+$e^{\frac{2\pi}{T}ikt},-\infty\le k\le\infty$
+
+Discrete Fourier Series:\\
+$x_l=x(l\frac{T}{N})=\sum^{N-1}_{k=0}y_ke^{\frac{2\pi}{N}ikl}$, for $l=0,1,2,\cdots,N-1$\\
+
+Discrete Cosine Transform:
+\begin{itemize}
+    \item digital signal $x=[x_0,x_1,\cdots,x_{N-1}]^T$ and $N$ is even
+    \item shuffle $x$ to become $x'=[x'_0,x'_1,\cdots,x'_{N-1}]^T$ where $x'_k=x_{2k}$ and $x'_{N-k-1}=x_{2k+1}$ for $k=0,1,2,\cdots,\frac{N}{2}-1$
+    \item apply DFT to get $y'$, then take $y=\sqrt{\frac{1}{N}}Real(y')$
+\end{itemize}
+
