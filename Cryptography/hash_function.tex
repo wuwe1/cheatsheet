@@ -1,0 +1,55 @@
+\section{Hash Functions}
+\subsection*{Definition}
+A hash function is a function $H:\{0,1\}^*\rightarrow \{0,1\}^{\ell}$ that
+\begin{itemize}
+    \item compresses long inputs into short (fixed-length) digests
+    \item Is \emph{collision resistant}: Hard to find $x,x'$ s.t. $H(x)=H(x')$
+\end{itemize}
+
+(Keyed) Hash function with output length $\ell(n)$:
+\begin{itemize}
+    \item $\text{Gen}(1^n)$: Output a key $s$
+    \item $H(s,x)$: $H^s(x)$ takes input $x\in\{0,1\}^*$ and outputs $H^s(x) \in \{0,1\}^{\ell(n)}$
+\end{itemize}
+
+Compression function: If input length is also fixed, i.e.,
+ $x\in\{0,1\}^{\ell'}$ for some $\ell'>\ell$, then this 
+ is called a compression function\\
+
+
+Hash functions used in practice are a bit different:
+\begin{itemize}
+    \item Output length is fixed (e.g., 256-bits), not a function of $n$
+    \item Usually used unkeyed
+    \item Still generally believed to be collision resistant
+\end{itemize}
+  
+\subsection*{Security Definition}
+Let $\Pi=(\text{Gen,H})$ be a (keyed) hash function with output length $\ell$
+$\text{Hash}-\text{Coll}_{\mathcal{A},\Pi}(n)$ is a game between an adversary $\mathcal{A}$
+and a challenger:
+\begin{itemize}
+    \item The challenger chooses $s\leftarrow \text{Gen}(1^n)$ and sends it to $\mathcal{A}$
+    \item $\mathcal{A}$ outputs two strings $(x,x')$
+    \item $\text{Hash}-\text{Coll}_{\mathcal{A},\Pi}(n)=1$ (i.e.,$\mathcal{A}$ wins)
+    if $H^s(x)=H^s(x')$
+\end{itemize}
+A hash function $\Pi=(\text{Gen},H)$ is \emph{collision resistant} if for all 
+PPT $\mathcal{A}$ it holds that 
+$\Pr[\text{Hash}-\text{Coll}_{\mathcal{A},\Pi}(n)=1]\le \text{negl}(n)$
+
+\subsection*{Building a Hash Function}
+\begin{itemize}
+    \item Start with a compression function $h^s:\{0,1\}^{\ell'}\rightarrow \{0,1\}^{\ell}$
+    \item Extend domain from $\ell'$ to arbitrary bit strings
+\end{itemize}
+
+Merkle-Damgard Domain Extension
+\begin{itemize}
+    \item Let $h^s:\{0,1\}^{2\ell}\rightarrow \{0,1\}^{\ell}$ be 
+    a compression function
+    \item Given input $x\in\{0,1\}^L$
+    \item Break $x$ into $\ell$ bit blocks
+    \item Add length $L$ as last block
+    \item Compute $H^s(x)$ as in the figure above
+\end{itemize}
