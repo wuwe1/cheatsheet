@@ -1,0 +1,46 @@
+\section{Message Authentication Codes}
+Ensure $\mathcal{A}$ cannot modify or create new message without being detected
+
+\subsection*{MAC Scheme}
+\begin{itemize}
+    \item $\text{Gen}(1^n)$: Outputs key $k$ with $|k|\ge n$
+    \item $\text{Mac}_k(m)$: Outputs a tag $t\leftarrow \text{Mac}_k(m)$
+    \item $\text{Verify}_k(m,t)$: Outputs $1$ if tag is valid for $m$, and $0$ otherwise
+\end{itemize}
+
+Correctness: For all $k$ output by $\text{Gen}$ and all $m$, $\text{Verify}(m,\text{Mac}_k(m))=1$\\
+
+Canonical Verify: If $\text{Mac}$ is deterministic, $\text{Verify}$ can compute $\text{Mac}_k(m)$, check equality to $t$\\
+
+\subsection*{MAC Unforgeability}
+\begin{itemize}
+    \item Challenger chooses $k\leftarrow \text{Gen}(1^n)$, and give $\mathcal{A}$ an oracle $\text{Mac}_k(\cdot)$
+    \item $\mathcal{A}^{\text{Mac}_k(\cdot)}(1^n)$ outputs $(m,t)$ (let $Q$ be set of $\text{Mac}$ queries made by $\mathcal{A}$)
+    \item $\text{MacForage}_{\mathcal{A},\Pi}(n)=1$ If \begin{itemize}
+        \item $\text{Verify}_k(m,t)=1$
+        \item $m\notin Q$
+    \end{itemize}
+\end{itemize}
+
+A MAC $\Pi=(\text{Gen},\text{Mac},\text{Verify})$ is \emph{unforageable} if for all PPT $\mathcal{A}$ it holds that
+$\Pr[\text{MacForage}_{\mathcal{A},\Pi}(n)=1]\le \text{negl}(n)$\\
+
+Strong MAC: Same definition as before, except $Q$ contains $(m,t)$ and $\mathcal{A}$ wins if $(m,t) \notin Q$\\
+
+PRF-based MAC ($\Pi$) is unforgeable for n-bit messages\\
+
+\subsection*{Authenticated Encryption}
+$\text{EncForage}_{\mathcal{A},\Pi}(n)$:
+\begin{itemize}
+    \item Challenger chooses $k\leftarrow \text{Gen}(1^n)$, and gives $\mathcal{A}$ an oracle $\text{Enc}_k(\cdot)$
+    \item $\mathcal{A}^{\text{Enc}_k(\cdot)}(1^n)$ outputs ciphertext $c$
+    \item Let $m=\text{Dec}_k(c)$ and let $Q$ be set of $\text{Enc}$ queries made by $\mathcal{A}$
+    \item $\text{MacForage}_{\mathcal{A},\Pi}(n)=1$ if $m\neq \bot$ and $m\notin Q$
+\end{itemize}
+
+Encryption scheme $\Pi = \text{(Gen, Mac, Verify)}$ is unforgeable if for all PPT $\mathcal{A}$ it holds that
+$\Pr[\text{EncForage}_{\mathcal{A},\Pi}(n)=1]\le \text{negl}(n)$\\
+
+$\Pi$ is an $\text{authenticated encryption}$ scheme if it is $\text{CCA-secure}$ and $\text{Unforageable}$\\
+
+Encrypt then authenticate is best way to construct authenticated encryption

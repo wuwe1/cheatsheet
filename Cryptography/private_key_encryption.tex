@@ -24,25 +24,6 @@ view the running time of the adversary, as well as its success probability,
  Asymptotic security: A scheme is \emph{secure} if any ppt adversary succeeds
   in breaking the scheme with at most negligible probability.\\
 
-  DEFINITION 3.7: A \emph{private-key encryption scheme} is a tuple of 
-  probabilistic polynomial-time algorithms $(Gen, Enc, Dec)$ such that:
-  \begin{enumerate}
-      \item The \emph{key-generation algorithm Gen} takes as input $1^n$ and outputs
-       a key $k$; we write $k \leftarrow Gen(1^n)$(emphasizing that Gen 
-       is a randomized algorithm). We assume w.l.o.g that any
-        key $k$ output by $Gen(1^n)$ satisfies $|k| \ge n$.
-        \item The \emph{encryption algorithm Enc} takes as input a key $k$ and a plaintext
-        message $m \in \{0,1\}\ast$, and outputs a ciphertext $c$. Since $Enc$
-        may be randomized, we write this as $c \leftarrow Enc_k(m)$.
-        \item The \emph{decryption algorithm Dec} takes as input a key $k$ and a ciphertext
-        $c$, and outputs a message $m$ or an error. We assume that $Dec$ is 
-        deterministic, and so write $m := Dec_k(c)$ 
-        (assuming here that Dec does not return an error). 
-        We denote a generic error by the symbol $\bot $.
-  \end{enumerate}
-
-It is required that for every $n$, every key $k$ output by $Gen(1^n)$, 
-and every $m \in \{0,1\}\ast$, it holds that $Dec_k(Enc_k(m)) = m$.\\
 
 $PrivK^{eav}_{\mathcal{A},\Pi}(n)$: 
 \begin{enumerate}
@@ -96,7 +77,8 @@ $PRG_{\mathcal{D},G}(n)$:
   \item $PRG_{\mathcal{D},G}(n)=1$, if $b'=b$
 \end{enumerate}
 
-Proofs by Reduction: We begin with an assumption that some problem $X$
+\subsection*{Proofs by Reduction}
+We begin with an assumption that some problem $X$
  cannot be solved (in some precisely defined sense) by any polynomial-time
   algorithm, except with negligible probability. We want to prove that some
    cryptographic construction $\Pi$ is secure (again, in some sense that is 
@@ -134,7 +116,8 @@ Proofs by Reduction: We begin with an assumption that some problem $X$
         non-negligible probability. Stated differently, 
         $\Pi$ is computationally secure.
    \end{enumerate}
-CPA Security:
+
+\subsection*{CPA-secure}
 \begin{enumerate}
   \item $\mathcal{A}$ is allowed to request encryptions (under key $k$) of any messages of its choice.
   \item $\mathcal{A}$ still cannot learn any information about encrypted message when seeing challenge ciphertext $c$.
@@ -161,6 +144,20 @@ $PRF_{\mathcal{D},F}(n)$:
   \item With access to oracle $O$, the distinguisher $\mathcal{D}$ outputs 
   a bit $b'$ $PRF_{\mathcal{D},F}(n) = 1$ (i.e., $D$ wins) if $b' = b$
 \end{enumerate}
+
+\subsection*{CCA-secure}
+An encryption scheme $\Pi=(Gen,Enc,Dec)$ is CCA-secure if for all PPT $\mathcal{A}$ it holds that 
+$\Pr[PrivK^{cca}_{\mathcal{A},\Pi}(n)]\le\frac{1}{2}+\text{negl}(n)$\\
+$PrivK^{cca}_{\mathcal{A},\Pi}(n)$:
+\begin{enumerate}
+  \item The challenger chooses $k\leftarrow Gen(1^n)$
+  \item $\mathcal{A}^{Enc_k(\cdot),Dec_k(\cdot)}(1^n)$ outputs $m_0, m_1$ such that
+  $|m_0|=|m_1|$
+  \item The challenger chooses $b\leftarrow\{0,1\}$, 
+  computes $c \leftarrow Enc_k(m_b)$ and gives $c$ to $\mathcal{A}$
+  \item $\mathcal{A}^{Enc_k(\cdot),Dec_k(\cdot)}$ outputs guess bit $b'$
+\end{enumerate}
+PRF+OTP is not CCA secure.\\
 
 
 
