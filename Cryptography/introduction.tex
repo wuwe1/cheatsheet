@@ -4,3 +4,13 @@ Definition of security's components:
     \item threat model
     \item security goal
 \end{enumerate}
+
+Adversary types:
+\begin{itemize}
+    \item Known-plaintext attack:\\
+    $\{x_i,F_k(x_i)\}$ with $x_i$ known to $\mathcal{A}$
+    \item Chosen-plaintext attack:\\
+    $\{F_k(x_i)\}$ for $x_i$ chosen by $\mathcal{A}$
+    \item Chosen-ciphertext attack:\\
+    $\{F_k(x_i)\},\{F_k^{-1}(y_i)\}$ for $x_i$,$y_i$ chosen by $\mathcal{A}$
+\end{itemize}
