@@ -1,0 +1,65 @@
+\section{Public-Key (Asymmetric) Cryptography}
+
+\subsection*{Number theory}
+Notation:
+\begin{itemize}
+    \item $\mathbb{Z}$: set of integers
+    \item For integer $n,||n||=\lfloor \log n \rfloor + 1$ is the number of 
+    bits to represent $n$
+    \item $a|b$: $a$ divides $b$ ($\exists c\in \mathbb{Z}$ s.t. $ac=b$)
+    \item $a\nmid b$: $a$ does not divides $b$
+    \item if $a|b$ and $a>0,a\notin \{1,b\}$ then $a$ is a factor of $b$
+    \item Positive integer $p>1$ is \emph{prime} if it has no factors
+    \item By convention, the number 1 is neither prime nor composite
+    \item An integer $p>1$ that is not prime is \emph{composite}
+\end{itemize}
+Fundamental Theorem of Arithmetic:\\
+All positive integers $n > 1$ can be expressed \emph{uniquely} (up to ordering) as
+ $n=\Pi p_i^{\ell_i}$ for primes $p_i$
+
+\subsection*{Greatest Common Divisor(gcd)}
+Definition: For $a,b\in \mathbb{Z},gcd(a,b)=c$ s.t. $c$ is the largest integer
+so that $c|a$ and $c|b$\\
+Properties of gcd:
+\begin{enumerate}
+    \item If $a,b\in \mathbb{Z}^+$, there exist $X,Y\in \mathbb{Z}$ such that
+    $Xa+Yb=gcd(a,b)$
+    \item $gcd(a,b)=gcd(b,[\text{a mod b}])$ if $a,b>1$ such that $b \nmid a$
+    \item If $c|ab$ and $gcd(a,c)=1$, then $c|b$
+    \item If $p$ is prime, then $p|ab$ implies that $p|a$ or $p|b$
+    \item If $a|N,b|N$, and $gcd(a,b)=1$ then $ab|N$
+    \item $gcd(0,0)$: undefined
+    \item $gcd(b,0)=gcd(0,b)=b$
+    \item If $p$ is prime, then $gcd(a,p)$ is either $1$ or $p$
+\end{enumerate}
+
+\subsection*{Modular Arithmetic}
+Notation:
+\begin{itemize}
+    \item $[\text{a mod N}]$: $a$ modulo $N$
+    \item $a=\text{b mod N}$ if $[\text{a mod N}]=[\text{b mod N}]$ 
+    we say $a$ is congurent to $\text{b mod N}$
+\end{itemize}
+Congruence Relation: If $a=\text{a' mod N}$, and $b=\text{b' mod N}$ then,
+\begin{itemize}
+    \item $a+b=a'+b'\ mod\ N$
+    \item $ab=a'b'\ mod\ N$
+\end{itemize}
+
+\subsection*{Group theory}
+Definition:
+\begin{itemize}
+    \item Closure: $\forall g,h, \in G, g\cdot h \in G$
+    \item Identity: $\exists \text{element } 1_G \in G$ s.t. $\forall g\in G$,
+    $1_G\cdot g=g\cdot 1_G=g$
+    \item Inverse: $\forall g\in G,\exists h\in G$ s.t. $g\cdot h=h\cdot g=1_G$
+    \item Associativity: $\forall g_1,g_2,g_3\in G,(g_1\cdot g_2)\cdot g_3=g_1\cdot(g_2\cdot g_3)$
+\end{itemize}
+
+Properties:
+\begin{itemize}
+    \item $\forall a,b,c \in G$, if $ac=bc$, then $a=b$
+    \item Let $|G|=m$, $\forall g\in G,g^m=1_G$
+    \item Let $|G|=m$, then for any $g\in G$ and any $x\in \mathbb{Z}$, 
+    $g^x=g^{\text{x mod m}}$
+\end{itemize}
