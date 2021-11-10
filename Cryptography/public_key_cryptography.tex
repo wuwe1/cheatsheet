@@ -32,6 +32,9 @@ Properties of gcd:
     \item $gcd(b,0)=gcd(0,b)=b$
     \item If $p$ is prime, then $gcd(a,p)$ is either $1$ or $p$
 \end{enumerate}
+Let $a,b$ be positive integers. Then there exist integers $X, Y$ such that
+ $X a + Y b = gcd(a, b)$. Furthermore, $gcd(a, b)$ is the smallest positive
+  integer that can be expressed in this way.
 
 \subsection*{Modular Arithmetic}
 Notation:
@@ -45,6 +48,12 @@ Congruence Relation: If $a=\text{a' mod N}$, and $b=\text{b' mod N}$ then,
     \item $a+b=a'+b'\ mod\ N$
     \item $ab=a'b'\ mod\ N$
 \end{itemize}
+Multiplicative inverse: If for a given integer $b$ there exists an integer $c$ 
+such that $bc = \text{1 mod N}$, we say that $b$ is \emph{invertible} 
+modulo $N$ and call $c$ a (multiplicative) \emph{inverse} of $b$ modulo $N$\\
+
+Let $b$, $N$ be integers, with $b \ge 1$ and $N > 1$. 
+Then $b$ is invertible modulo $N$ if and only if $gcd(b, N ) = 1$.
 
 \subsection*{Group theory}
 Definition:
@@ -62,4 +71,42 @@ Properties:
     \item Let $|G|=m$, $\forall g\in G,g^m=1_G$
     \item Let $|G|=m$, then for any $g\in G$ and any $x\in \mathbb{Z}$, 
     $g^x=g^{\text{x mod m}}$
+    \item Let $|G|=m$, and let $e > 0 \in \mathbb{Z}$. Define
+    $f_e: G \rightarrow G$ by $f_e(g)=g^e$
+    \begin{itemize}
+        \item If $gcd(e,m)=1$, then $f_e$ is a permutation over $G$
+        \item If $d=e^{-1}\ mod\ m$, then $f_d=f_e^{-1}$
+    \end{itemize}
 \end{itemize}
+
+\subsection*{Cyclic Groups}
+Let $G$ be a group such that $|G|=m$
+\begin{itemize}
+    \item For $g\in G$, define $<g>=\{g^0,g^1,\cdots\}$
+    \item order of $g\in G$ is smallest $i\le m$ such that $g^i=1$
+    \item $<g>=\{g^0,\cdots,g^{i-1}\}$ is a subgroup of $G$
+\end{itemize}
+A group $G$ is \emph{cyclic} if $\exists g\in G$ s.t. $\text{order}(g)=|G|$.
+i.e. $<g>=G$. $g$ is called the generator of $G$\\
+
+If $|G|$ is prime, then $G$ is cyclic. Moreover, all $g\in G$ except 1 are generators.
+
+$\mathbb{Z}^+_N=\{1,\cdots,N-1\}$\\
+$\mathbb{Z}^*_N=\{b\in \{1,\cdots,N-1\}|gcd(b,N)=1\}$\\
+$\phi(N)=|\mathbb{Z}^*_N|=(p-1)(q-1)$\\
+Let $N=\Pi_{i}p_{i}^{e_i}$, $\phi(N)=\Pi_{i}p_{i}^{e_i-1}(p_i-1)$\\
+$\phi(ab)=\phi(a) \times \phi(b)$ iff $a$ and $b$ are co-prime\\
+Take $N>1$ and $a\in \mathbb{Z}^*_N$, $a^{\phi(N)}=1\text{ mod }N$
+
+\subsection*{Group Isomorphism}
+Groups $G$ and $H$ are \emph{isomorphic}$(G\simeq H)$ if there exists function
+$f: G\rightarrow H$ such that:
+\begin{itemize}
+    \item $f$ is a \emph{bijection} (i.e. one-to-one correspondence)
+    \item $\forall g_1,g_2 \in G,\ f(g_1\cdot g_2)=f(g_1)\cdot f(g_2)$
+\end{itemize}
+
+\subsection*{Chinese Remainder Theorem}
+Let $N=pq$, then $\mathbb{Z}_N \simeq \mathbb{Z}_p \times \mathbb{Z}_q$ and
+$\mathbb{Z}_N^* \simeq \mathbb{Z}_p^* \times \mathbb{Z}_q^*$, with Isomorphism
+$f(x)=([x\text{ mod }p],[x\text{ mod }q])$
